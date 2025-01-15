@@ -4,7 +4,6 @@ from PyQt5.QtCore import QPoint, QRect, QSize, Qt
 class FlowLayout(QLayout):
     """
     讓Widget自動「流式」排列，不夠寬就換行。
-    改寫自 Qt 官方 C++ 範例，可在 Python 下使用。
     """
     def __init__(self, parent=None, margin=5, spacing=5):
         super().__init__(parent)

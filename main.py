@@ -1,13 +1,16 @@
-import sys
+# main.py
+import sys, random
+import os
 from PyQt5.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QScrollArea, QMessageBox,
-    QFrame, QLabel, QDialog, QVBoxLayout, QHBoxLayout
+    QApplication, QMainWindow, QWidget, QScrollArea, 
+    QFrame, QLabel, QDialog, QVBoxLayout, QHBoxLayout, 
+    QPushButton, QMessageBox
 )
 from PyQt5.QtCore import Qt, QMimeData, QPoint, QSize
 from PyQt5.QtGui import QDrag, QPixmap, QPainter, QFont, QColor
 
 from flowlayout import FlowLayout  
-
+from data_source import WELFARE_CARDS, CHANCE_CARDS, RIDDLES
 # -----------------------------------------
 # 顏色、排序、卡片資料
 # -----------------------------------------
@@ -56,14 +59,18 @@ class Card:
         self.color = color
         self.group = group
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
 
-# -----------------------------------------
-# 繪製卡片(小/大)的函式 (略同前例)
-# -----------------------------------------
+    return os.path.join(base_path, relative_path)
 def render_card_image(card: Card, size: QSize) -> QPixmap:
     """
-    根據 card.color 判斷要繪製「一般房地產卡面」或
-    「交通卡面」或「公司卡面」。
+    繪製不同卡片版型(一般/交通/公司)。
     """
     pixmap = QPixmap(size)
     pixmap.fill(Qt.transparent)
@@ -73,7 +80,6 @@ def render_card_image(card: Card, size: QSize) -> QPixmap:
     width  = size.width()
     height = size.height()
 
-    # 字體大小: 可依卡片大小做比例
     title_font_size = int(height * 0.07)
     normal_font_size= int(height * 0.05)
     small_font_size = int(height * 0.04)
@@ -82,32 +88,27 @@ def render_card_image(card: Card, size: QSize) -> QPixmap:
     normalFont= QFont("Arial", normal_font_size)
     smallFont = QFont("Arial", small_font_size)
 
-    # 上方色塊高度
     header_h = int(height * 0.18)
 
-    # 取得對應顏色 (預設橘)
     bg_color = COLOR_MAP.get(card.color, "#f39423")
-
-    # -- 畫上方色塊 --
+    # 上方色塊
     p.setBrush(QColor(bg_color))
     p.setPen(Qt.NoPen)
     p.drawRect(0, 0, width, header_h)
 
-    # -- 卡片標題(名稱) --
+    # 卡片標題
     p.setPen(Qt.black)
     p.setFont(titleFont)
     p.drawText(0, 0, width, header_h, Qt.AlignCenter, card.name)
 
-    # -- 下方白底 --
+    # 下方白底
     p.setBrush(Qt.white)
     p.setPen(Qt.NoPen)
     p.drawRect(0, header_h, width, height - header_h)
 
     p.setPen(Qt.black)
-    # 接下來要根據color, 顯示不同版型
+
     if card.color == "交通":
-        # 交通卡面
-        # 例：with 1 transportation: 20, 2 transportations: 50, 3 transportations: 100, 4 transportations: 200
         p.setFont(normalFont)
         current_y = header_h + int(height * 0.10)
         line_height = int(height * 0.06)
@@ -124,17 +125,12 @@ def render_card_image(card: Card, size: QSize) -> QPixmap:
             current_y += line_height
         p.drawText(5, current_y, "--------------------------------")
         current_y += line_height
-        # 也可加其他資訊
         p.setFont(smallFont)
         p.drawText(5, current_y, f"Mortgage $100")
         current_y += line_height
         p.drawText(5, current_y, f"Unmortgage $110")
 
     elif card.color == "公司":
-        # 公司卡面
-        # 例：1 corporation: the number of dices times 4
-        #     2 corporation: the number of dices times 10
-        #     3 corporation: the number of dices times 30
         p.setFont(normalFont)
         current_y = header_h + int(height * 0.10)
         line_height = int(height * 0.06)
@@ -150,14 +146,19 @@ def render_card_image(card: Card, size: QSize) -> QPixmap:
             current_y += line_height
         p.drawText(5, current_y, "--------------------------------")
         current_y += line_height
-        # 也可加其他資訊
         p.setFont(smallFont)
         p.drawText(5, current_y, f"Mortgage $75")
         current_y += line_height
         p.drawText(5, current_y, f"Unmortgage $83")
-
+    elif card.name == "監獄卡":
+        p.setFont(normalFont)
+        current_y = header_h + int(height * 0.10)
+        line_height = int(height * 0.06)
+        p.drawText(5, current_y, "你可以使用此卡出獄")
+        current_y += line_height
+        
     else:
-        # 一般房地產卡面
+        # 一般地產
         p.setFont(normalFont)
         current_y = header_h + int(height * 0.05)
         line_height = int(height * 0.06)
@@ -166,7 +167,7 @@ def render_card_image(card: Card, size: QSize) -> QPixmap:
         current_y += line_height
         p.drawText(5, current_y, f"Rent {card.rent}")
         current_y += line_height
-        p.drawText(5, current_y, f"Rent with colour set {card.set_rent}")
+        p.drawText(5, current_y, f"Rent w/ set {card.set_rent}")
         current_y += line_height
         p.drawText(5, current_y, "--------------------------------")
         current_y += line_height
@@ -184,21 +185,19 @@ def render_card_image(card: Card, size: QSize) -> QPixmap:
 
         p.drawText(5, current_y, "--------------------------------")
         current_y += line_height
-
         p.setFont(smallFont)
         p.drawText(5, current_y, f"One house cost {card.house_cost}")
         current_y += line_height
         p.drawText(5, current_y, f"Mortgage {card.mortgage}")
         current_y += line_height
         p.drawText(5, current_y, f"Unmortgage {card.unmortgage}")
+
     p.end()
     return pixmap
 
 
-# -----------------------------------------
-# 卡片Widget（小卡 + 拖曳 + 雙擊放大）
-# -----------------------------------------
 class CardWidget(QLabel):
+    """卡片縮圖 + 拖曳 + 雙擊放大"""
     def __init__(self, card: Card, parent=None):
         super().__init__(parent)
         self.card = card
@@ -239,14 +238,29 @@ class CardWidget(QLabel):
         drop_action = drag.exec_(Qt.MoveAction)
 
     def showLargeCard(self):
-        dialog = ZoomCardDialog(self.card, parent=self)
+        def use_card_callback(card_w):
+            """
+            這個函式會被 ZoomCardDialog 呼叫,
+            負責真正移除卡片
+            """
+            # 取得卡片當前的父容器 (可能是 AreaWidget)
+            parent_w = card_w.parent()
+            if parent_w and hasattr(parent_w, 'flowLayout'):
+                parent_w.flowLayout.removeWidget(card_w)
+            card_w.setParent(None)
+
+        dialog = ZoomCardDialog(card_widget=self, card=self.card, on_use_card=use_card_callback, parent=self)
         dialog.exec_()
 
 
+
 class ZoomCardDialog(QDialog):
-    def __init__(self, card: Card, parent=None):
+    def __init__(self, card_widget, card, on_use_card=None, parent=None):
         super().__init__(parent)
+        self.card_widget = card_widget
         self.card = card
+        self.on_use_card = on_use_card  # 這就是外部傳來的 callback
+
         self.setWindowTitle("放大卡片 - " + self.card.name)
         self.resize(500, 700)
 
@@ -255,8 +269,19 @@ class ZoomCardDialog(QDialog):
 
         layout = QVBoxLayout()
         layout.addWidget(self.label)
-        self.setLayout(layout)
 
+        # 若是「監獄卡」，就加「使用」按鈕
+        if self.card.name == "監獄卡":
+            self.use_button = QPushButton("使用監獄卡")
+            layout.addWidget(self.use_button)
+            self.use_button.clicked.connect(self.on_use_jail_card)
+
+        # 關閉按鈕
+        self.close_button = QPushButton("關閉")
+        layout.addWidget(self.close_button)
+        self.close_button.clicked.connect(self.close)
+
+        self.setLayout(layout)
         self.updateLargeCard()
 
     def updateLargeCard(self):
@@ -264,58 +289,47 @@ class ZoomCardDialog(QDialog):
         pixmap = render_card_image(self.card, large_size)
         self.label.setPixmap(pixmap)
 
-# -----------------------------------------
-# 這裡是「重點」：AreaWidget 改成
-# QScrollArea + FlowLayout => 自動換行 + 可卷動
-# -----------------------------------------
+    def on_use_jail_card(self):
+        """
+        按下「使用監獄卡」
+        """
+        if self.on_use_card is not None:
+            self.on_use_card(self.card_widget)  # 呼叫外部傳進來的 callback
+        self.close()
+
+
+
 class AreaWidget(QScrollArea):
     """
-    代表一個組 (Group1/2/3) 或 Center 區域，可以放多張卡片。
-    改用 QScrollArea + FlowLayout:
-      - self.container: 真正放 Widget 的母容器
-      - self.flowLayout: 流式排版 => 會自動換行
+    一個區域 (Group1/2/3 或 Center)，可放多張卡片 (CardWidget)。
+    使用 FlowLayout 來自動換行。
     """
-
     def __init__(self, area_name, parent=None):
         super().__init__(parent)
         self.area_name = area_name
         self.setAcceptDrops(True)
 
-        # 內容容器 (用 QWidget)
         self.container = QWidget()
         self.flowLayout = FlowLayout(self.container, margin=10, spacing=10)
         self.container.setLayout(self.flowLayout)
 
-        # 如果不是Center，就在FlowLayout裡放一個「組員照片框」(僅示範)
+        # 如果不是Center，就插入圖片(組員照片)示範
         if self.area_name != "Center":
             photoFrame = QLabel(self.container)
             photoFrame.setStyleSheet("border:1px solid #999;")
             photoFrame.setFixedSize(80, 80)
+            image_path = resource_path(area_name + ".png") 
 
-            # 1) 建立 QPixmap，載入實際的圖片路徑
-            pixmap = QPixmap(area_name+".png")  # 這裡放你的圖檔路徑
-
-            # 2) 如果想要縮放成 80×80 (保持比例，可以用 KeepAspectRatio)
-            scaled_pix = pixmap.scaled(
-                80, 80, 
-                Qt.KeepAspectRatio, 
-                Qt.SmoothTransformation
-            )
-
-            # 3) 指定給 photoFrame
+            pixmap = QPixmap(image_path)  # 如 "Group1.png", "Group2.png"...
+            scaled_pix = pixmap.scaled(80, 80, Qt.KeepAspectRatio, Qt.SmoothTransformation)
             photoFrame.setPixmap(scaled_pix)
-            
-            # 4) 也可以設定居中
             photoFrame.setAlignment(Qt.AlignCenter)
 
-            # 最後把它加進 flowLayout
             self.flowLayout.addWidget(photoFrame)
 
-        # 把 container 放進 QScrollArea
         self.setWidget(self.container)
         self.setWidgetResizable(True)
 
-    # ---- 拖曳相關 ----
     def dragEnterEvent(self, event):
         if event.mimeData().hasText():
             event.acceptProposedAction()
@@ -337,15 +351,15 @@ class AreaWidget(QScrollArea):
             else:
                 source_widget.card.group = self.area_name
 
-            # 從舊的容器移除
+            # 從舊容器拿走
             old_parent = source_widget.parent()
             if isinstance(old_parent, AreaWidget):
                 old_parent.flowLayout.removeWidget(source_widget)
 
-            # 加到新的 flowLayout
+            # 放到本區
             self.flowLayout.addWidget(source_widget)
 
-            # 重新排序
+            # 排序
             self.sortByColor()
 
             event.acceptProposedAction()
@@ -353,27 +367,19 @@ class AreaWidget(QScrollArea):
             super().dropEvent(event)
 
     def sortByColor(self):
-        """
-        按顏色排序：FlowLayout要自己拿出所有widget -> sort -> 再加回
-        但要注意photoFrame(若存在)應該保留在最前
-        """
-        # 先把 widget 全部取出
         tempList = []
         for i in range(self.flowLayout.count()):
             item = self.flowLayout.itemAt(i)
             w = item.widget()
             tempList.append(w)
 
-        # 如果第一個是 photoFrame，就先取出來
         photoFrame = None
         if self.area_name != "Center" and len(tempList) > 0:
-            # 假設我們固定把第一個視為 photoFrame
             photoFrame = tempList[0]
             cardWidgets = tempList[1:]
         else:
             cardWidgets = tempList
 
-        # 排序 cardWidgets
         def color_key(w):
             c = w.card.color
             try:
@@ -384,15 +390,52 @@ class AreaWidget(QScrollArea):
         cardWidgets = [w for w in cardWidgets if isinstance(w, CardWidget)]
         cardWidgets.sort(key=color_key)
 
-        # 重新加回 flowLayout
         for i in range(self.flowLayout.count()):
-            self.flowLayout.takeAt(0)  # 不斷pop
+            self.flowLayout.takeAt(0)
 
         if photoFrame:
             self.flowLayout.addWidget(photoFrame)
 
         for w in cardWidgets:
             self.flowLayout.addWidget(w)
+
+
+# ---------------------------------------------------------
+# 新增的：福利卡、機會卡、謎題
+# ---------------------------------------------------------
+class RiddleDialog(QDialog):
+    def __init__(self, question, answer, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("謎題")
+
+        # 可以設定一個大字體
+        big_font = QFont("微軟正黑體", 24, QFont.Bold)
+
+        self.question_label = QLabel(question, self)
+        self.question_label.setFont(big_font)  
+
+        self.answer_button = QPushButton("顯示答案", self)
+        self.answer_button.setFont(QFont("微軟正黑體", 18))  
+
+        self.answer_label = QLabel("", self)
+        self.answer_label.setFont(QFont("微軟正黑體", 24))
+
+        self.close_button = QPushButton("關閉謎題", self)
+        self.close_button.setFont(QFont("微軟正黑體", 18))
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.question_label)
+        layout.addWidget(self.answer_button)
+        layout.addWidget(self.answer_label)
+        layout.addWidget(self.close_button)
+        self.setLayout(layout)
+
+        self.answer_button.clicked.connect(lambda: self.show_answer(answer))
+        self.close_button.clicked.connect(self.close)
+
+    def show_answer(self, answer_text):
+        self.answer_label.setText(answer_text)
+
 
 # -----------------------------------------
 # 主視窗
@@ -401,14 +444,42 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.showFullScreen()
-        self.setWindowTitle("大富翁卡片 (FlowLayout + ScrollArea)")
+        self.setWindowTitle("大富翁卡片 (FlowLayout + ScrollArea) - 含抽卡 & 謎題")
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
-        main_layout = QHBoxLayout()
+        main_layout = QVBoxLayout()
         central_widget.setLayout(main_layout)
 
-        # 左：三個 Group (AreaWidget)
+        # 上方按鈕區 (抽福利卡、抽機會卡、抽謎題)
+        self.original_welfare_cards = list(WELFARE_CARDS)
+        self.original_chance_cards  = list(CHANCE_CARDS)
+        self.original_riddles       = list(RIDDLES)
+
+        # 建立「目前可抽」庫
+        self.welfare_cards = list(self.original_welfare_cards)
+        self.chance_cards  = list(self.original_chance_cards)
+        self.riddles       = list(self.original_riddles)
+
+        button_layout = QHBoxLayout()
+        self.btn_welfare = QPushButton("抽福利卡")
+        self.btn_chance = QPushButton("抽機會卡")
+        self.btn_riddle = QPushButton("抽謎題")
+
+        button_layout.addWidget(self.btn_welfare)
+        button_layout.addWidget(self.btn_chance)
+        button_layout.addWidget(self.btn_riddle)
+
+        self.btn_welfare.clicked.connect(self.draw_welfare_card)
+        self.btn_chance.clicked.connect(self.draw_chance_card)
+        self.btn_riddle.clicked.connect(self.draw_riddle)
+
+        main_layout.addLayout(button_layout)
+
+        # 下方放 左邊的 Groups + 右邊的 Center
+        content_layout = QHBoxLayout()
+        main_layout.addLayout(content_layout, stretch=1)
+
         left_container = QWidget()
         left_layout = QVBoxLayout()
         left_layout.setSpacing(10)
@@ -422,13 +493,12 @@ class MainWindow(QMainWindow):
         left_layout.addWidget(self.group2_area)
         left_layout.addWidget(self.group3_area)
 
-        # 右：Center
         self.center_area = AreaWidget("Center")
 
-        main_layout.addWidget(left_container, stretch=1)
-        main_layout.addWidget(self.center_area, stretch=2)
+        content_layout.addWidget(left_container, stretch=1)
+        content_layout.addWidget(self.center_area, stretch=2)
 
-        # 建立幾張卡片
+        # --- 大富翁主要卡片 (示範) ---
         self.cards = [
             Card(name="小港", color="咖啡", price="$60", rent="$2", set_rent="$4",
                  house_rents=["$10","$30","$90","$160"], hotel_rent="$250",house_cost="$50",mortgage="$30",unmortgage = "$33"),
@@ -482,18 +552,101 @@ class MainWindow(QMainWindow):
             Card(name="倫敦", color="藍", price="$400", rent="$50", set_rent="$100",
                  house_rents=["$200","$600","$1400","$1700"], hotel_rent="$2000",house_cost="$200",mortgage="$200",unmortgage = "$220"),
         ]
-        
-
-        # 新增到 Center
         for c in self.cards:
             w = CardWidget(c)
             self.center_area.flowLayout.addWidget(w)
-
         self.center_area.sortByColor()
 
-# -----------------------------------------
-# 執行
-# -----------------------------------------
+        # -----------------------------------------------------
+        # 以下為：福利卡庫、機會卡庫、謎題庫
+        # -----------------------------------------------------
+
+    # ------------------ 福利卡功能 ------------------
+    def draw_welfare_card(self):
+        if not self.welfare_cards:
+            self.welfare_cards = list(self.original_welfare_cards)
+
+        chosen = random.choice(self.welfare_cards)
+        self.welfare_cards.remove(chosen)
+
+        name = chosen["name"]
+        desc = chosen["desc"]
+
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle("福利卡")
+
+        # 在文字前面也可加大標題
+        big_text = f"<h2>你抽到了：</h2><p><b>{name}</b><br>{desc}</p>"
+        msg_box.setText(big_text)
+
+        # 設置字體
+        big_font = QFont("微軟正黑體", 20)
+        msg_box.setFont(big_font)
+
+        msg_box.exec_()
+
+        if name == "監獄卡":
+            # 產生一張「監獄卡」CardWidget，讓玩家可以拖到某組
+            jail_card = Card(name="監獄卡", color="粉", price="", rent="", set_rent="", 
+                             house_rents=["","","",""], hotel_rent="", house_cost="", mortgage="",unmortgage="")
+            w = CardWidget(jail_card)
+            self.center_area.flowLayout.addWidget(w)
+            self.center_area.sortByColor()
+
+    # ------------------ 機會卡功能 ------------------
+    def draw_chance_card(self):
+        """
+        隨機抽一張機會卡 -> 移除 -> 顯示
+        若機會卡抽完，也重置
+        """
+        if not self.chance_cards:
+            self.chance_cards = list(self.original_chance_cards)
+        chosen = random.choice(self.chance_cards)
+        self.chance_cards.remove(chosen)
+
+        name = chosen["name"]
+        desc = chosen["desc"]
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle("福利卡")
+
+        # 在文字前面也可加大標題
+        big_text = f"<h2>你抽到了：</h2><p><b>{name}</b><br>{desc}</p>"
+        msg_box.setText(big_text)
+
+        # 設置字體
+        big_font = QFont("微軟正黑體", 20)
+        msg_box.setFont(big_font)
+
+        msg_box.exec_()
+
+        if name == "監獄卡":
+            # 產生一張「監獄卡」CardWidget，讓玩家可以拖到某組
+            jail_card = Card(name="監獄卡", color="粉", price="", rent="", set_rent="", 
+                             house_rents=["","","",""], hotel_rent="", house_cost="", mortgage="",unmortgage="")
+            w = CardWidget(jail_card)
+            self.center_area.flowLayout.addWidget(w)
+            self.center_area.sortByColor()
+        # 根據卡片內容做相應動作(本範例僅顯示訊息，你可自行擴充)
+
+    # ------------------ 謎題功能 ------------------
+    def draw_riddle(self):
+        """
+        隨機抽一個謎題 -> 移除 -> 用RiddleDialog顯示
+        若題庫清空，也重置
+        """
+        if not self.riddles:
+            self.riddles = list(self.original_riddles)
+
+        chosen = random.choice(self.riddles)
+        self.riddles.remove(chosen)
+
+        question = chosen["question"]
+        answer = chosen["answer"]
+
+        dlg = RiddleDialog(question, answer, self)
+        dlg.exec_()
+
+
 def main():
     app = QApplication(sys.argv)
     w = MainWindow()

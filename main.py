@@ -34,10 +34,12 @@ class Card:
         description="",
         price="$0",
         rent="$0",
+        set_rent =  "$0",
         house_rents=None,
         hotel_rent="$0",
         house_cost="$0",
         mortgage="$0",
+        unmortgage="$0",
         color="橘",
         group=None
     ):
@@ -45,10 +47,12 @@ class Card:
         self.description = description
         self.price = price
         self.rent = rent
+        self.set_rent = set_rent
         self.house_rents = house_rents if house_rents else ["$0","$0","$0","$0"]
         self.hotel_rent = hotel_rent
         self.house_cost = house_cost
         self.mortgage = mortgage
+        self.unmortgage = unmortgage
         self.color = color
         self.group = group
 
@@ -110,7 +114,7 @@ def render_card_image(card: Card, size: QSize) -> QPixmap:
         p.drawText(5, current_y, "--------------------------------")
         current_y += line_height
         lines = [
-            f"1 transportation: $20",
+            f"1 transportation: $25",
             f"2 transportations: $50",
             f"3 transportations: $100",
             f"4 transportations: $200",
@@ -122,7 +126,9 @@ def render_card_image(card: Card, size: QSize) -> QPixmap:
         current_y += line_height
         # 也可加其他資訊
         p.setFont(smallFont)
-        p.drawText(5, current_y, f"Mortgage {card.mortgage}")
+        p.drawText(5, current_y, f"Mortgage $100")
+        current_y += line_height
+        p.drawText(5, current_y, f"Unmortgage $110")
 
     elif card.color == "公司":
         # 公司卡面
@@ -146,7 +152,9 @@ def render_card_image(card: Card, size: QSize) -> QPixmap:
         current_y += line_height
         # 也可加其他資訊
         p.setFont(smallFont)
-        p.drawText(5, current_y, f"Mortgage {card.mortgage}")
+        p.drawText(5, current_y, f"Mortgage $75")
+        current_y += line_height
+        p.drawText(5, current_y, f"Unmortgage $83")
 
     else:
         # 一般房地產卡面
@@ -157,6 +165,8 @@ def render_card_image(card: Card, size: QSize) -> QPixmap:
         p.drawText(5, current_y, f"Price {card.price}")
         current_y += line_height
         p.drawText(5, current_y, f"Rent {card.rent}")
+        current_y += line_height
+        p.drawText(5, current_y, f"Rent with colour set {card.set_rent}")
         current_y += line_height
         p.drawText(5, current_y, "--------------------------------")
         current_y += line_height
@@ -179,7 +189,8 @@ def render_card_image(card: Card, size: QSize) -> QPixmap:
         p.drawText(5, current_y, f"One house cost {card.house_cost}")
         current_y += line_height
         p.drawText(5, current_y, f"Mortgage {card.mortgage}")
-
+        current_y += line_height
+        p.drawText(5, current_y, f"Unmortgage {card.unmortgage}")
     p.end()
     return pixmap
 
@@ -277,10 +288,27 @@ class AreaWidget(QScrollArea):
 
         # 如果不是Center，就在FlowLayout裡放一個「組員照片框」(僅示範)
         if self.area_name != "Center":
-            photoFrame = QLabel("組員照片", self.container)
-            photoFrame.setStyleSheet("background-color: #CCCCCC; border:1px solid #999;")
+            photoFrame = QLabel(self.container)
+            photoFrame.setStyleSheet("border:1px solid #999;")
             photoFrame.setFixedSize(80, 80)
-            # 直接加到 flowLayout
+
+            # 1) 建立 QPixmap，載入實際的圖片路徑
+            pixmap = QPixmap(area_name+".png")  # 這裡放你的圖檔路徑
+
+            # 2) 如果想要縮放成 80×80 (保持比例，可以用 KeepAspectRatio)
+            scaled_pix = pixmap.scaled(
+                80, 80, 
+                Qt.KeepAspectRatio, 
+                Qt.SmoothTransformation
+            )
+
+            # 3) 指定給 photoFrame
+            photoFrame.setPixmap(scaled_pix)
+            
+            # 4) 也可以設定居中
+            photoFrame.setAlignment(Qt.AlignCenter)
+
+            # 最後把它加進 flowLayout
             self.flowLayout.addWidget(photoFrame)
 
         # 把 container 放進 QScrollArea
@@ -402,64 +430,57 @@ class MainWindow(QMainWindow):
 
         # 建立幾張卡片
         self.cards = [
-            Card(name="小港", color="咖啡", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="大寮", color="咖啡", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="左營高鐵站", color="交通", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="清水", color="淺藍", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="台中遠雄", color="淺藍", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="烏日", color="淺藍", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="夢時代", color="粉", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="純文實業", color="公司", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="鳳山", color="粉", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="海港", color="粉", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="桃園機場", color="交通", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="中央大學", color="橘", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="白帥帥新光店", color="橘", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="義大飯店", color="橘", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="白帥帥興中店", color="紅", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="台灣大學", color="紅", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="北師大", color="紅", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="台北高鐵站", color="交通", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="海洋大學", color="黃", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="薇閣中學", color="黃", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="洪志淳皮膚科", color="公司", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="天母", color="黃", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="昭明國小", color="綠", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="信義國小", color="綠", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="蒲園", color="綠", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="阿姆斯特丹機場", color="交通", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="SMG", color="藍", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
-            Card(name="KaaK Group", color="公司", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),     
-            Card(name="倫敦", color="藍", price="$60", rent="$2",
-                 house_rents=["$10","$20","$40","$80"], hotel_rent="$120",house_cost="$50",mortgage="$25"),
+            Card(name="小港", color="咖啡", price="$60", rent="$2", set_rent="$4",
+                 house_rents=["$10","$30","$90","$160"], hotel_rent="$250",house_cost="$50",mortgage="$30",unmortgage = "$33"),
+            Card(name="大寮", color="咖啡", price="$60", rent="$4", set_rent="$8",
+                 house_rents=["$20","$60","$180","$320"], hotel_rent="$450",house_cost="$50",mortgage="$30",unmortgage = "$33"),
+            Card(name="左營高鐵站", color="交通", price="$200"),
+            Card(name="清水", color="淺藍", price="$100", rent="$6", set_rent="$12",
+                 house_rents=["$30","$90","$270","$400"], hotel_rent="$550",house_cost="$50",mortgage="$50",unmortgage = "$55"),
+            Card(name="台中遠雄", color="淺藍", price="$100", rent="$6", set_rent="$12",
+                 house_rents=["$30","$90","$270","$400"], hotel_rent="$550",house_cost="$50",mortgage="$50",unmortgage = "$55"),
+            Card(name="烏日", color="淺藍", price="$120", rent="$8", set_rent="$16",
+                 house_rents=["$40","$100","$300","$450"], hotel_rent="$600",house_cost="$50",mortgage="$60",unmortgage = "$66"),
+            Card(name="夢時代", color="粉", price="$140", rent="$10", set_rent="$20", 
+                 house_rents=["$50","$150","$450","$625"], hotel_rent="$750",house_cost="$100",mortgage="$70",unmortgage = "$77"),
+            Card(name="純文實業", color="公司", price="$150"),
+            Card(name="鳳山", color="粉", price="$140", rent="$10", set_rent="$20", 
+                 house_rents=["$50","$150","$450","$625"], hotel_rent="$750",house_cost="$100",mortgage="$70",unmortgage = "$77"),
+            Card(name="海港", color="粉", price="$160", rent="$12", set_rent="$24",
+                 house_rents=["$60","$180","$500","$700"], hotel_rent="$900",house_cost="$100",mortgage="$80",unmortgage = "$88"),
+            Card(name="桃園機場", color="交通", price="$200"),
+            Card(name="中央大學", color="橘", price="$180", rent="$14", set_rent="$28",
+                 house_rents=["$70","$200","$550","$750"], hotel_rent="$950",house_cost="$100",mortgage="$90",unmortgage = "$99"),
+            Card(name="白帥帥新光店", color="橘", price="$180", rent="$14", set_rent="$28",
+                 house_rents=["$70","$200","$550","$750"], hotel_rent="$950",house_cost="$100",mortgage="$90",unmortgage = "$99"),
+            Card(name="義大飯店", color="橘", price="$200", rent="$16", set_rent="$32",
+                 house_rents=["$80","$220","$600","$800"], hotel_rent="$1000",house_cost="$100",mortgage="$100",unmortgage = "$110"),
+            Card(name="白帥帥興中店", color="紅", price="$220", rent="$18", set_rent="$36",
+                 house_rents=["$90","$250","$700","$875"], hotel_rent="$1050",house_cost="$150",mortgage="$110",unmortgage = "$121"),
+            Card(name="台灣大學", color="紅", price="$220", rent="$18", set_rent="$36",
+                 house_rents=["$90","$250","$700","$875"], hotel_rent="$1050",house_cost="$150",mortgage="$110",unmortgage = "$121"),
+            Card(name="北師大", color="紅", price="$240", rent="$20", set_rent="$40",
+                 house_rents=["$100","$300","$750","$925"], hotel_rent="$1100",house_cost="$150",mortgage="$120",unmortgage = "$132"),
+            Card(name="台北高鐵站", color="交通", price="$200"),
+            Card(name="海洋大學", color="黃", price="$260", rent="$22", set_rent="$44",
+                 house_rents=["$110","$330","$800","$975"], hotel_rent="$1150",house_cost="$150",mortgage="$130",unmortgage = "$143"),
+            Card(name="薇閣中學", color="黃", price="$260", rent="$22", set_rent="$44",
+                 house_rents=["$110","$330","$800","$975"], hotel_rent="$1150",house_cost="$150",mortgage="$130",unmortgage = "$143"),
+            Card(name="洪志淳皮膚科", color="公司", price="$150"),
+            Card(name="天母", color="黃", price="$280", rent="$24", set_rent="$48",
+                 house_rents=["$120","$360","$850","$1025"], hotel_rent="$1200",house_cost="$150",mortgage="$140",unmortgage = "$154"),
+            Card(name="昭明國小", color="綠", price="$300", rent="$26", set_rent="$52",
+                 house_rents=["$130","$390","$900","$1100"], hotel_rent="$1275",house_cost="$200",mortgage="$150",unmortgage = "$165"),
+            Card(name="信義國小", color="綠", price="$300", rent="$26", set_rent="$52",
+                 house_rents=["$130","$390","$900","$1100"], hotel_rent="$1275",house_cost="$200",mortgage="$150",unmortgage = "$165"),
+            Card(name="蒲園", color="綠", price="$320", rent="$28", set_rent="$56",
+                 house_rents=["$150","$450","$1000","$1200"], hotel_rent="$1400",house_cost="$200",mortgage="$160",unmortgage = "$176"),
+            Card(name="阿姆斯特丹機場", color="交通", price="$200"),
+            Card(name="SMG", color="藍", price="$350", rent="$35", set_rent="$70",
+                 house_rents=["$175","$500","$1100","$1300"], hotel_rent="$1500",house_cost="$200",mortgage="$175",unmortgage = "$193"),
+            Card(name="KaaK Group", color="公司", price="$150"),     
+            Card(name="倫敦", color="藍", price="$400", rent="$50", set_rent="$100",
+                 house_rents=["$200","$600","$1400","$1700"], hotel_rent="$2000",house_cost="$200",mortgage="$200",unmortgage = "$220"),
         ]
         
 

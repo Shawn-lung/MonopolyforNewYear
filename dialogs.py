@@ -1,10 +1,10 @@
 # dialogs.py
 
 from PyQt5.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton
+    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QScrollArea, QWidget
 )
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QPixmap
 
 from widgets import render_card_image, CardWidget
 from models import Card
@@ -102,3 +102,94 @@ class RiddleDialog(QDialog):
 
     def show_answer(self, answer_text: str):
         self.answer_label.setText(answer_text)
+
+
+class QuestionDialog(QDialog):
+    """
+    問答題對話框。
+    """
+    def __init__(self, question: str, answer: str, question_image_path: str = None, answer_image_path: str = None, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("謎題")
+        self.setMinimumSize(800, 600)  # Set minimum size for the dialog
+
+        big_font = QFont("微軟正黑體", 24, QFont.Bold)
+
+        self.question_label = QLabel(question, self)
+        self.question_label.setFont(big_font)
+        self.question_label.setWordWrap(True)
+
+        self.question_image = QLabel(self)
+        if question_image_path:
+            pixmap = QPixmap(question_image_path)
+            self.question_image.setPixmap(
+                pixmap.scaled(600, 600, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            )
+            self.question_image.setAlignment(Qt.AlignCenter)
+
+        self.answer_button = QPushButton("顯示答案", self)
+        self.answer_button.setFont(QFont("微軟正黑體", 18))
+
+        self.answer_label = QLabel("", self)
+        self.answer_label.setFont(QFont("微軟正黑體", 24))
+        self.answer_label.setWordWrap(True)
+        self.answer_label.setAlignment(Qt.AlignTop)
+
+        self.answer_image = QLabel(self)
+        self.answer_image.setAlignment(Qt.AlignCenter)
+
+        self.close_button = QPushButton("關閉謎題", self)
+        self.close_button.setFont(QFont("微軟正黑體", 18))
+
+        # --- Layout with QScrollArea ---
+        self.scroll_area = QScrollArea(self)  # Create a QScrollArea
+        self.scroll_area.setWidgetResizable(True)
+
+        scroll_widget = QWidget()  # Create a widget to hold the content
+        self.scroll_layout = QVBoxLayout(scroll_widget)  # Layout for the scrollable widget
+        self.scroll_area.setWidget(scroll_widget)  # Set the widget inside the scroll area
+
+        self.main_layout = QVBoxLayout(self)  # Main layout of the dialog
+        self.main_layout.addWidget(self.scroll_area)  # Add the QScrollArea to the main layout
+
+        self.scroll_layout.addWidget(self.question_label)
+
+        if question_image_path:
+            self.scroll_layout.addWidget(self.question_image)
+
+        self.scroll_layout.addWidget(self.answer_button)
+        self.scroll_layout.addWidget(self.answer_label)
+
+        # Layout for the answer image (created only when needed)
+        self.answer_image_layout = None
+
+        self.scroll_layout.addWidget(self.close_button)
+
+        self.answer_button.clicked.connect(lambda: self.show_answer(answer, answer_image_path))
+        self.close_button.clicked.connect(self.close)
+
+    def show_answer(self, answer_text: str, answer_image_path: str = None):
+        self.answer_label.setText(answer_text)
+
+        if answer_image_path:
+            # Create answer image layout only when needed
+            if self.answer_image_layout is None:
+                self.answer_image_layout = QVBoxLayout()
+                self.answer_image_layout.addStretch()
+                # Insert before close button (second to last item)
+                self.scroll_layout.insertLayout(self.scroll_layout.count() - 1, self.answer_image_layout)
+
+            # Remove previous answer image if any
+            if self.answer_image_layout.count() > 0:
+                old_image_widget = self.answer_image_layout.takeAt(0).widget()
+                if old_image_widget:
+                    old_image_widget.setParent(None)
+
+            pixmap = QPixmap(answer_image_path)
+            if not pixmap.isNull():
+                self.answer_image.setPixmap(pixmap.scaled(600, 600, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+                self.answer_image_layout.addWidget(self.answer_image)
+            else:
+                print(f"Error loading image: {answer_image_path}")
+
+        self.setLayout(self.main_layout)

@@ -1,4 +1,4 @@
-
+import os
 
 WELFARE_CARDS = [
     {"name": "監獄卡", "desc": "你被關進監獄，可留著此卡以後使用。"},
@@ -503,4 +503,36 @@ RIDDLES = [
      C. 切成小塊 Cut into small cubes
      D. 切成細末 Mince finely''', "answer": "B. 切成條狀 Cut into strips"}
      
+]
+
+
+QUESTIONS = [
+    {"question":'''求椅子的高度
+What is the height of the chair?''', "answer": '''40''', "Question_image_path": os.path.join("img","questions" ,"Question1.png"), "Answer_image_path": os.path.join("img","answers","Answer1.png")},
+    {"question":'''有四個物品： 
+    A：65元 ; B：78元 ; C：104元 ; D：170元 有人買了若干個上述物品，總共花費3600元， 請問他買了幾個 D 呢？
+There are four items:
+A: 65 units ; B: 78 units ; C: 104 units ; D: 170 units
+Someone purchased a certain number of these items, spending a total of 3600 units.
+How many of item D did they buy?''', "answer": "12", "Question_image_path": "", "Answer_image_path": ""},
+    {"question":'''一對父子在公園賽跑，爸爸的步伐比兒子大許多，爸爸跑5步的距離，兒子要跑9步；但兒子的腳步比較快，兒子跑3步的時間，爸爸只跑了2步；現在兩人要賽跑，爸爸想說要讓兒子一點，所以爸爸就從起跑線先退後了10步。請問，兩人同時起跑後，爸爸要跑幾步之後可以追上兒子呢？
+A father and son are racing in the park. The father's stride is much longer than the son's: the distance the father covers in 5 steps is equivalent to the distance the son covers in 9 steps. However, the son moves faster: the son takes 3 steps in the same amount of time the father takes 2 steps. Now, they are about to race, but the father decides to give the son a head start and steps back 10 steps from the starting line. If they start running at the same time, how many steps does the father need to take to catch up with the son?''', 
+    "answer": '''60''', "Question_image_path": "", "Answer_image_path": os.path.join("img","answers","Answer3.png")},
+    {"question": '''下圖是用六根火柴棒拼成的兩個三角形，移動一根火柴棒，讓它們形成四個三角形。
+The image below shows two triangles formed using six matchsticks. Move one matchstick to create four triangles.''', "answer": "", "Question_image_path": os.path.join("img","questions" ,"Question4.png"), "Answer_image_path": os.path.join("img","answers","Answer4.png")},
+    {"question": '''A,B,C和D在晚上要過橋，他們現在有一盞燈，一定要有燈才能過橋，ABCD的過橋時間為2,5,8,10分鐘，每次最多兩人過橋，求最少要多久時間過橋?
+A, B, C, and D need to cross a bridge at night. They have one lantern, and the lantern must be carried for anyone to cross. The time it takes for each person to cross the bridge is as follows: A - 2 mins, B - 5 mins, C - 8 mins, D - 10 mins. A maximum of two people can cross the bridge at a time.
+What is the minimum time required for all four to cross the bridge?''', "answer": '''27min''', "Question_image_path": os.path.join("img","questions" ,"Question5.png"), "Answer_image_path": ""},
+    {"question": '''將2-19等18個數字不重複的填入上方圓圈中，使相連兩數的和都是完全平方數。
+Place the numbers from 2 to 19, without repetition, into the circles above, so that the sum of any two connected numbers is a perfect square.''', "answer": "", "Question_image_path": os.path.join("img","questions" ,"Question6.png"), "Answer_image_path": os.path.join("img","answers","Answer6.png")},
+    {"question": '''把數字 1 ~ 9 不重複的填入下面的圓圈中，讓三邊各自的數字總和都相等
+Fill in the numbers 1 to 9, without repetition, into the circles below so that the sum of the numbers on each side is equal. Some of the circles are already filled in.''', "answer": "", "Question_image_path": os.path.join("img","questions" ,"Question7.png"), "Answer_image_path": os.path.join("img","answers","Answer7.png")},
+    {"question": '''騏騏在七點整從公園出發，往火車站走去；翌翌也在同時間從火車站出發，往公園走去；兩人在途中擦身而過，繼續往各自的目的地走，騏騏在5分鐘後到達火車站，翌翌在20分鐘後到達公園(以上時間皆指兩人相遇後的時間)，已知兩人途中都是各自以等速前進。
+請問，請問騏騏到達火車站的時間是幾點幾分呢？
+Adrian starts from the park at 7:00 and walks towards the train station. At the same time, Shawn starts from the train station and walks towards the park. They pass each other along the way and continue to their respective destinations. Adrian reaches the train station 5 minutes after passing Shawn, while Shawn reaches the park 20 minutes after passing Adrian (the above times are measured after they meet). Assuming both are walking at constant speeds, what time does Adrian arrive at the train station?''', "answer": '''7:15''', "Question_image_path": os.path.join("img","questions" ,"Question8.png"), "Answer_image_path": ""},
+    {"question": '''某次考試有 25 題，答對一題得 4 分，答錯或沒答都要倒扣 1 分，請問，要想及格至少要答對幾題呢？
+In a test with 25 questions, each correct answer earns 4 points, while each incorrect or unanswered question deducts 1 point. How many questions must be answered correctly to pass the test?''', "answer": '''17''', "Question_image_path": os.path.join("img","questions" ,"Question8.png"), "Answer_image_path": ""},
+    {"question": '''從1寫到100，請問總共寫了幾次數字『8』呢？
+From 1 to 100, how many times is the digit '8' written in total?''', "answer": '''20''', "Question_image_path": os.path.join("img","questions" ,"Question8.png"), "Answer_image_path": ""}
+
 ]

@@ -5,9 +5,9 @@ from PyQt5.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QPushButton, QMessageBox
 )
-from data_source import WELFARE_CARDS, CHANCE_CARDS, RIDDLES
+from data_source import WELFARE_CARDS, CHANCE_CARDS, RIDDLES, QUESTIONS
 from widgets import AreaWidget, CardWidget
-from dialogs import RiddleDialog
+from dialogs import RiddleDialog, QuestionDialog
 from models import Card
 from cards_data import cards_info
 
@@ -25,23 +25,28 @@ class MainWindow(QMainWindow):
         self.original_welfare_cards = list(WELFARE_CARDS)
         self.original_chance_cards  = list(CHANCE_CARDS)
         self.original_riddles       = list(RIDDLES)
+        self.original_questions     = list(QUESTIONS)
 
         self.welfare_cards = list(self.original_welfare_cards)
         self.chance_cards  = list(self.original_chance_cards)
         self.riddles       = list(self.original_riddles)
+        self.questions     = list(self.original_questions)
 
         button_layout = QHBoxLayout()
         self.btn_welfare = QPushButton("抽福利卡")
         self.btn_chance = QPushButton("抽機會卡")
         self.btn_riddle = QPushButton("抽謎題")
+        self.btn_question = QPushButton("抽問答題")
 
         self.btn_welfare.clicked.connect(self.draw_welfare_card)
         self.btn_chance.clicked.connect(self.draw_chance_card)
         self.btn_riddle.clicked.connect(self.draw_riddle)
+        self.btn_question.clicked.connect(self.draw_question)
 
         button_layout.addWidget(self.btn_welfare)
         button_layout.addWidget(self.btn_chance)
         button_layout.addWidget(self.btn_riddle)
+        button_layout.addWidget(self.btn_question)
         main_layout.addLayout(button_layout)
 
         # 下方：左(三個Group) + 右(Center)
@@ -158,4 +163,22 @@ class MainWindow(QMainWindow):
         answer = chosen["answer"]
 
         dlg = RiddleDialog(question, answer, self)
+        dlg.exec_()
+
+    def draw_question(self):
+        """
+        隨機抽一個謎題 -> 顯示對話框
+        若題庫清空，也重置。
+        """
+        if not self.questions:
+            self.questions = list(self.original_questions)
+
+        chosen = random.choice(self.questions)
+        self.questions.remove(chosen)
+
+        question = chosen["question"]
+        answer = chosen["answer"]
+        Question_img_path = chosen["Question_image_path"]
+        Answer_img_path = chosen["Answer_image_path"]
+        dlg = QuestionDialog(question, answer, Question_img_path, Answer_img_path, self)
         dlg.exec_()

@@ -167,7 +167,7 @@ class MainWindow(QMainWindow):
 
     def draw_question(self):
         """
-        隨機抽一個謎題 -> 顯示對話框
+        隨機抽一個問答題 -> 顯示對話框
         若題庫清空，也重置。
         """
         if not self.questions:

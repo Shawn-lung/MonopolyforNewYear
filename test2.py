@@ -68,8 +68,7 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
-
-def render_card_image(card: Card, size: QSize, mortgaged: bool) -> QPixmap:
+def render_card_image(card: Card, size: QSize) -> QPixmap:
     """
     繪製不同卡片版型(一般/交通/公司)。
     """
@@ -78,143 +77,120 @@ def render_card_image(card: Card, size: QSize, mortgaged: bool) -> QPixmap:
     p = QPainter(pixmap)
     p.setRenderHint(QPainter.Antialiasing)
 
-    width = size.width()
+    width  = size.width()
     height = size.height()
 
     title_font_size = int(height * 0.07)
-    normal_font_size = int(height * 0.05)
+    normal_font_size= int(height * 0.05)
     small_font_size = int(height * 0.04)
 
     titleFont = QFont("Arial", title_font_size, QFont.Bold)
-    normalFont = QFont("Arial", normal_font_size)
+    normalFont= QFont("Arial", normal_font_size)
     smallFont = QFont("Arial", small_font_size)
 
     header_h = int(height * 0.18)
 
-    if mortgaged:
-        # 抵押狀態的卡片外觀
-        p.setBrush(QColor("#7d7d7d"))  # 暗灰色背景
-        p.setPen(Qt.NoPen)
-        p.drawRect(0, 0, width, height)
+    bg_color = COLOR_MAP.get(card.color, "#f39423")
+    # 上方色塊
+    p.setBrush(QColor(bg_color))
+    p.setPen(Qt.NoPen)
+    p.drawRect(0, 0, width, header_h)
 
-        p.setPen(Qt.white)
-        p.setFont(titleFont)
-        p.drawText(0, 0, width, header_h, Qt.AlignCenter, card.name)
+    # 卡片標題
+    p.setPen(Qt.black)
+    p.setFont(titleFont)
+    p.drawText(0, 0, width, header_h, Qt.AlignCenter, card.name)
 
+    # 下方白底
+    p.setBrush(Qt.white)
+    p.setPen(Qt.NoPen)
+    p.drawRect(0, header_h, width, height - header_h)
+
+    p.setPen(Qt.black)
+
+    if card.color == "交通":
         p.setFont(normalFont)
         current_y = header_h + int(height * 0.10)
         line_height = int(height * 0.06)
         p.drawText(5, current_y, "--------------------------------")
         current_y += line_height
-        p.drawText(5, current_y, f"抵押: {card.mortgage}")
+        lines = [
+            f"1 transportation: $25",
+            f"2 transportations: $50",
+            f"3 transportations: $100",
+            f"4 transportations: $200",
+        ]
+        for text_line in lines:
+            p.drawText(5, current_y, text_line)
+            current_y += line_height
+        p.drawText(5, current_y, "--------------------------------")
         current_y += line_height
-        p.drawText(5, current_y, f"贖回: {card.unmortgage}")
+        p.setFont(smallFont)
+        p.drawText(5, current_y, f"Mortgage $100")
+        current_y += line_height
+        p.drawText(5, current_y, f"Unmortgage $110")
+
+    elif card.color == "公司":
+        p.setFont(normalFont)
+        current_y = header_h + int(height * 0.10)
+        line_height = int(height * 0.06)
+        p.drawText(5, current_y, "--------------------------------")
+        current_y += line_height
+        lines = [
+            "1 corporation : dice×4",
+            "2 corporations: dice×10",
+            "3 corporations: dice×30",
+        ]
+        for text_line in lines:
+            p.drawText(5, current_y, text_line)
+            current_y += line_height
+        p.drawText(5, current_y, "--------------------------------")
+        current_y += line_height
+        p.setFont(smallFont)
+        p.drawText(5, current_y, f"Mortgage $75")
+        current_y += line_height
+        p.drawText(5, current_y, f"Unmortgage $83")
+    elif card.name == "監獄卡":
+        p.setFont(normalFont)
+        current_y = header_h + int(height * 0.10)
+        line_height = int(height * 0.06)
+        p.drawText(5, current_y, "你可以使用此卡出獄")
+        current_y += line_height
+        
+    else:
+        # 一般地產
+        p.setFont(normalFont)
+        current_y = header_h + int(height * 0.05)
+        line_height = int(height * 0.06)
+
+        p.drawText(5, current_y, f"Price {card.price}")
+        current_y += line_height
+        p.drawText(5, current_y, f"Rent {card.rent}")
+        current_y += line_height
+        p.drawText(5, current_y, f"Rent w/ set {card.set_rent}")
         current_y += line_height
         p.drawText(5, current_y, "--------------------------------")
+        current_y += line_height
 
-    else:
-        # 正常狀態的卡片外觀 (與之前相同)
-        bg_color = COLOR_MAP.get(card.color, "#f39423")
-        # 上方色塊
-        p.setBrush(QColor(bg_color))
-        p.setPen(Qt.NoPen)
-        p.drawRect(0, 0, width, header_h)
-
-        # 卡片標題
-        p.setPen(Qt.black)
-        p.setFont(titleFont)
-        p.drawText(0, 0, width, header_h, Qt.AlignCenter, card.name)
-
-        # 下方白底
-        p.setBrush(Qt.white)
-        p.setPen(Qt.NoPen)
-        p.drawRect(0, header_h, width, height - header_h)
-
-        p.setPen(Qt.black)
-
-        if card.color == "交通":
-            p.setFont(normalFont)
-            current_y = header_h + int(height * 0.10)
-            line_height = int(height * 0.06)
-            p.drawText(5, current_y, "--------------------------------")
-            current_y += line_height
-            lines = [
-                f"1 transportation: $25",
-                f"2 transportations: $50",
-                f"3 transportations: $100",
-                f"4 transportations: $200",
-            ]
-            for text_line in lines:
-                p.drawText(5, current_y, text_line)
-                current_y += line_height
-            p.drawText(5, current_y, "--------------------------------")
-            current_y += line_height
-            p.setFont(smallFont)
-            p.drawText(5, current_y, f"Mortgage $100")
-            current_y += line_height
-            p.drawText(5, current_y, f"Unmortgage $110")
-
-        elif card.color == "公司":
-            p.setFont(normalFont)
-            current_y = header_h + int(height * 0.10)
-            line_height = int(height * 0.06)
-            p.drawText(5, current_y, "--------------------------------")
-            current_y += line_height
-            lines = [
-                "1 corporation : dice×4",
-                "2 corporations: dice×10",
-                "3 corporations: dice×30",
-            ]
-            for text_line in lines:
-                p.drawText(5, current_y, text_line)
-                current_y += line_height
-            p.drawText(5, current_y, "--------------------------------")
-            current_y += line_height
-            p.setFont(smallFont)
-            p.drawText(5, current_y, f"Mortgage $75")
-            current_y += line_height
-            p.drawText(5, current_y, f"Unmortgage $83")
-        elif card.name == "監獄卡":
-            p.setFont(normalFont)
-            current_y = header_h + int(height * 0.10)
-            line_height = int(height * 0.06)
-            p.drawText(5, current_y, "你可以使用此卡出獄")
+        houseLabels = [
+            f"With 1 house  {card.house_rents[0]}",
+            f"With 2 house  {card.house_rents[1]}",
+            f"With 3 house  {card.house_rents[2]}",
+            f"With 4 house  {card.house_rents[3]}",
+            f"With 1 Hotel  {card.hotel_rent}",
+        ]
+        for label in houseLabels:
+            p.drawText(5, current_y, label)
             current_y += line_height
 
-        else:
-            # 一般地產
-            p.setFont(normalFont)
-            current_y = header_h + int(height * 0.05)
-            line_height = int(height * 0.06)
-
-            p.drawText(5, current_y, f"Price {card.price}")
-            current_y += line_height
-            p.drawText(5, current_y, f"Rent {card.rent}")
-            current_y += line_height
-            p.drawText(5, current_y, f"Rent w/ set {card.set_rent}")
-            current_y += line_height
-            p.drawText(5, current_y, "--------------------------------")
-            current_y += line_height
-
-            houseLabels = [
-                f"With 1 house  {card.house_rents[0]}",
-                f"With 2 house  {card.house_rents[1]}",
-                f"With 3 house  {card.house_rents[2]}",
-                f"With 4 house  {card.house_rents[3]}",
-                f"With 1 Hotel  {card.hotel_rent}",
-            ]
-            for label in houseLabels:
-                p.drawText(5, current_y, label)
-                current_y += line_height
-
-            p.drawText(5, current_y, "--------------------------------")
-            current_y += line_height
-            p.setFont(smallFont)
-            p.drawText(5, current_y, f"One house cost {card.house_cost}")
-            current_y += line_height
-            p.drawText(5, current_y, f"Mortgage {card.mortgage}")
-            current_y += line_height
-            p.drawText(5, current_y, f"Unmortgage {card.unmortgage}")
+        p.drawText(5, current_y, "--------------------------------")
+        current_y += line_height
+        p.setFont(smallFont)
+        p.drawText(5, current_y, f"One house cost {card.house_cost}")
+        current_y += line_height
+        p.drawText(5, current_y, f"Mortgage {card.mortgage}")
+        current_y += line_height
+        p.drawText(5, current_y, f"Unmortgage {card.unmortgage}")
 
     p.end()
     return pixmap
@@ -227,12 +203,10 @@ class CardWidget(QLabel):
         self.card = card
         self.drag_start_pos = QPoint()
         self.normal_size = QSize(160, 220)
-        self.is_mortgaged = False
         self.updateCardAppearance()
 
     def updateCardAppearance(self):
-        # 根據抵押狀態更新卡片外觀
-        pixmap = render_card_image(self.card, self.normal_size, self.is_mortgaged)
+        pixmap = render_card_image(self.card, self.normal_size)
         self.setPixmap(pixmap)
         self.setFixedSize(self.normal_size)
 
@@ -254,31 +228,38 @@ class CardWidget(QLabel):
         super().mouseDoubleClickEvent(event)
 
     def startDrag(self):
-        if not self.is_mortgaged:
-            drag = QDrag(self)
-            mime_data = QMimeData()
-            mime_data.setText(self.card.name)
-            drag.setMimeData(mime_data)
+        drag = QDrag(self)
+        mime_data = QMimeData()
+        mime_data.setText(self.card.name)
+        drag.setMimeData(mime_data)
 
-            drag_pixmap = self.pixmap().copy()
-            drag.setPixmap(drag_pixmap)
-            drop_action = drag.exec_(Qt.MoveAction)
+        drag_pixmap = self.pixmap().copy()
+        drag.setPixmap(drag_pixmap)
+        drop_action = drag.exec_(Qt.MoveAction)
 
     def showLargeCard(self):
-        dialog = ZoomCardDialog(card_widget=self, card=self.card, parent=self)
+        def use_card_callback(card_w):
+            """
+            這個函式會被 ZoomCardDialog 呼叫,
+            負責真正移除卡片
+            """
+            # 取得卡片當前的父容器 (可能是 AreaWidget)
+            parent_w = card_w.parent()
+            if parent_w and hasattr(parent_w, 'flowLayout'):
+                parent_w.flowLayout.removeWidget(card_w)
+            card_w.setParent(None)
+
+        dialog = ZoomCardDialog(card_widget=self, card=self.card, on_use_card=use_card_callback, parent=self)
         dialog.exec_()
 
-    def toggle_mortgage(self):
-        # 切換抵押狀態
-        self.is_mortgaged = not self.is_mortgaged
-        self.updateCardAppearance()
 
 
 class ZoomCardDialog(QDialog):
-    def __init__(self, card_widget, card, parent=None):
+    def __init__(self, card_widget, card, on_use_card=None, parent=None):
         super().__init__(parent)
         self.card_widget = card_widget
         self.card = card
+        self.on_use_card = on_use_card  # 這就是外部傳來的 callback
 
         self.setWindowTitle("放大卡片 - " + self.card.name)
         self.resize(500, 700)
@@ -294,11 +275,6 @@ class ZoomCardDialog(QDialog):
             self.use_button = QPushButton("使用監獄卡")
             layout.addWidget(self.use_button)
             self.use_button.clicked.connect(self.on_use_jail_card)
-        else:
-            # 抵押/解除抵押按鈕
-            self.mortgage_button = QPushButton("抵押" if not self.card_widget.is_mortgaged else "解除抵押")
-            layout.addWidget(self.mortgage_button)
-            self.mortgage_button.clicked.connect(self.on_toggle_mortgage)
 
         # 關閉按鈕
         self.close_button = QPushButton("關閉")
@@ -310,19 +286,16 @@ class ZoomCardDialog(QDialog):
 
     def updateLargeCard(self):
         large_size = QSize(400, 550)
-        pixmap = render_card_image(self.card, large_size, self.card_widget.is_mortgaged)
+        pixmap = render_card_image(self.card, large_size)
         self.label.setPixmap(pixmap)
 
     def on_use_jail_card(self):
-        # 使用監獄卡相關動作
-        self.card_widget.setParent(None)
+        """
+        按下「使用監獄卡」
+        """
+        if self.on_use_card is not None:
+            self.on_use_card(self.card_widget)  # 呼叫外部傳進來的 callback
         self.close()
-
-    def on_toggle_mortgage(self):
-        # 切換抵押狀態
-        self.card_widget.toggle_mortgage()
-        self.updateLargeCard()
-        self.mortgage_button.setText("抵押" if not self.card_widget.is_mortgaged else "解除抵押")
 
 
 

@@ -461,5 +461,46 @@ RIDDLES = [
      A. 債務 Debt
      B. 洞 Hole
      C. 年齡 Age
-     D. 秘密 Secret''', "answer": "B. 洞 Hole"}
+     D. 秘密 Secret''', "answer": "B. 洞 Hole"},
+     {"question": '''哪種動物以"長吻"聞名，常見於亞馬遜河？ / Which animal is known for its "long snout" and is commonly found in the Amazon River?
+     A. 海牛 Manatee
+     B. 鱷魚 Crocodile
+     C. 長吻鱷 Gharial
+     D. 亞馬遜河豚 Amazon River Dolphin''', "answer": "D. 亞馬遜河豚 Amazon River Dolphin"},
+    {"question": '''世界上最大的爬行動物是哪種？ / What is the largest reptile in the world?
+     A. 科莫多龍 Komodo Dragon
+     B. 咸水鱷 Saltwater Crocodile
+     C. 綠海龜 Green Sea Turtle
+     D. 大蟒蛇 Reticulated Python''', "answer": "B. 咸水鱷 Saltwater Crocodile"},
+    {"question": '''哪種動物的骨架由軟骨而非骨頭構成？ / Which animal has a skeleton made of cartilage instead of bone?
+     A. 鯊魚 Shark
+     B. 海豚 Dolphin
+     C. 龍蝦 Lobster
+     D. 海星 Starfish''', "answer": "A. 鯊魚 Shark"},
+    {"question": '''希臘的古代戰爭“馬拉松之戰”中，哪位將軍領導了雅典軍隊取得了勝利？ / In the ancient Greek battle of Marathon, which general led the Athenian forces to victory?
+     A. 斯巴達克斯 Spartacus
+     B. 佩里克里斯 Pericles
+     C. 赫爾米斯赫羅克斯 Hermias Heracles
+     D. 小米太亞德 Miltiades''', "answer": "D. 小米太亞德 Miltiades"},
+    {"question": '''亞馬遜雨林位於南美洲，但其中有一部分跨越哪些國家？ / The Amazon Rainforest is located in South America, but which countries does it span across?
+     A. 只有巴西 Only Brazil
+     B. 巴西、秘魯、哥倫比亞 Brazil, Peru, Colombia
+     C. 巴西、哥倫比亞、厄瓜多爾 Brazil, Colombia, Ecuador
+     D. 巴西、玻利維亞、阿根廷 Brazil, Bolivia, Argentina''', "answer": "B. 巴西、秘魯、哥倫比亞 Brazil, Peru, Colombia"},
+    {"question": '''歐洲的“黑死病”在14世紀肆虐，但流行病研究認為，這場大流行的來源究竟是何種病原體，歷史學家至今仍有爭議？ / The "Black Death" swept through Europe in the 14th century, but epidemiologists believe that the exact pathogen behind the pandemic is still disputed by historians. What was the most likely pathogen?
+     A. 鼠疫 Yersinia pestis
+     B. 天花 Smallpox
+     C. 霍亂 Cholera
+     D. 流感 Influenza''', "answer": "A. 鼠疫 Yersinia pestis"},
+    {"question": '''古代中國的“絲綢之路”貿易路線對世界歷史影響深遠，然而它是通往哪一個古代王國的主要貿易通道？ / The ancient Chinese "Silk Road" trade route had a profound impact on world history, but which ancient kingdom was one of the major trade destinations along this route?
+     A. 波斯帝國 Persian Empire
+     B. 羅馬帝國 Roman Empire
+     C. 印度帝國 Indian Empire
+     D. 大月氏帝國 Yuezhi Empire''', "answer": "A. 波斯帝國 Persian Empire"},
+    {"question": '''在烹飪中，"julienne"的切法是指什麼？ / In cooking, what does the term "julienne" refer to in terms of cutting?
+     A. 切成圓片 Slice into rounds
+     B. 切成條狀 Cut into strips
+     C. 切成小塊 Cut into small cubes
+     D. 切成細末 Mince finely''', "answer": "B. 切成條狀 Cut into strips"}
+     
 ]

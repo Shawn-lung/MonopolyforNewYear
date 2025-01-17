@@ -1,7 +1,8 @@
 # 大富翁卡片系統 (MonopolyCards)
 
-本專案示範使用 **PyQt5** + **FlowLayout** + **QScrollArea** 製作類似大富翁的卡片系統。
-
+- 本專案示範使用 **PyQt5** + **FlowLayout** + **QScrollArea** 製作類似大富翁的卡片系統。
+- This project is for 2025 Chinese New Year games for the Wang Family
+![image info](./img/GO.png)
 ## 功能
 - 可以拖曳卡片到不同的 Group 區域。
 - 抽「福利卡」、抽「機會卡」、抽「謎題」。

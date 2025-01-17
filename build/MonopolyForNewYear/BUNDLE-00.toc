@@ -1,3 +1,0 @@
-([('MonopolyForNewYear',
-   '/Users/shawnlung/Documents/GitHub/MonopolyforNewYear/dist/MonopolyForNewYear',
-   'EXECUTABLE')],)

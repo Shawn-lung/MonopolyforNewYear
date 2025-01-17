@@ -2,7 +2,9 @@
 
 - 本專案示範使用 **PyQt5** + **FlowLayout** + **QScrollArea** 製作類似大富翁的卡片系統。
 - This project is for the Wang family's 2025 Chinese New Year annual game.
+## 棋盤及遊玩照片
 ![image info](./img/GO.png)
+![image info](./img/main_widget.png)
 
 ## 功能
 - 可以拖曳卡片到不同的 Group 區域。

@@ -177,17 +177,7 @@ RIDDLES = [
      B. 7776 
      C. 4096 
      D. 46660''', "answer": "A. 46656"},
-    {"question": '''下列數字的規律是什麼？：1, 1, 2, 3, 5, 8, ? / What is the pattern of the following numbers?: 1, 1, 2, 3, 5, 8, ? 
-     A. 13 
-     B. 10 
-     C. 12 
-     D. 9''', "answer": "A. 13"},
-    {"question": '''下列哪一種動物的心跳最慢？/ Which of the following animals has the slowest heart rate? 
-     A. 鯨魚 Whale 
-     B. 大象 Elephant 
-     C. 蜜蜂 Bee 
-     D. 青蛙 Frog''', "answer": "A. 鯨魚 Whale"},
-    {"question": '''下列哪個國家主要經濟作物有葡萄、柑橘、橄欖、無花果等? Which country has main economic crops such as grapes, citrus, olives, and figs? 
+    {"question": '''下列哪一個國家主要經濟作物有葡萄、柑橘、橄欖、無花果等? Which country has main economic crops such as grapes, citrus, olives, and figs? 
      A. 玻利維亞 Bolivia 
      B. 烏拉圭 Uruguay 
      C. 智利 Chile 
@@ -204,7 +194,7 @@ RIDDLES = [
      D. 18％''', "answer": "A. 75％"},
     {"question": '''美人魚銅像是哪個國家首都的]地標？ Which country's capital has the landmark mermaid statue? 
      A. 丹麥哥本哈根 Copenhagen, Denmark 
-     B. 美國紐約 New York, USA 
+     B. 美國華盛頓 Washington D.C., USA 
      C. 英國倫敦 London, UK 
      D. 法國巴黎 Paris, France''', "answer": "A. 丹麥哥本哈根 Copenhagen, Denmark"},
     {"question": '''世界上最長的河流是哪一條？ What is the longest river in the world? 
@@ -237,106 +227,6 @@ RIDDLES = [
      B. 漢語 Mandarin Chinese 
      C. 西班牙語 Spanish 
      D. 印地語 Hindi''', "answer": "B. 漢語 Mandarin Chinese"},
-    {"question": '''人類基因組大約有多少個基因？/ Approximately how many genes are in the human genome? 
-     A. 10,000 
-     B. 20,000-25,000 
-     C. 50,000 
-     D. 100,000''', "answer": "B. 20,000-25,000"},
-    {"question": '''誰發現了美洲新大陸？/ Who discovered the Americas? 
-     A. 馬可·波羅 Marco Polo 
-     B. 克里斯托弗·哥倫布 Christopher Columbus 
-     C. 瓦斯科·達伽馬 Vasco da Gama 
-     D. 詹姆斯·庫克 James Cook''', "answer": "B. 克里斯托弗·哥倫布 Christopher Columbus"},
-    {"question": '''法國大革命的起始年份是？/ When did the French Revolution begin? 
-     A. 1776年 
-     B. 1789年 
-     C. 1812年 
-     D. 1848年''', "answer": "B. 1789年"},
-    {"question": '''第一次世界大戰的起因是什麼？/ What was the cause of World War I? 
-     A. 德國的入侵 German invasion 
-     B. 法蘭茲·斐迪南大公被刺殺 Archduke Franz Ferdinand's assassination 
-     C. 經濟大蕭條 The Great Depression 
-     D. 殖民地爭奪 Colonial disputes''', "answer": "B. 法蘭茲·斐迪南大公被刺殺 Archduke Franz Ferdinand's assassination"},
-    {"question": '''二戰期間，諾曼第登陸的代號是什麼？/ What was the codename for the Normandy landings during WWII? 
-     A. 海神計劃 Operation Neptune 
-     B. 海王星計劃 Operation Overlord 
-     C. 市場花園計劃 Operation Market Garden 
-     D. 曼哈頓計劃 Manhattan Project''', "answer": "B. 海王星計劃 Operation Overlord"},
-    {"question": '''哪個國家是古代奧林匹克運動會的發源地？/ Which country was the birthplace of the ancient Olympic Games? 
-     A. 義大利 Italy 
-     B. 希臘 Greece 
-     C. 埃及 Egypt 
-     D. 土耳其 Turkey''', "answer": "B. 希臘 Greece"},
-    {"question": '''中國古代四大發明不包括哪一項？/ Which is NOT one of the Four Great Inventions of ancient China? 
-     A. 造紙術 Papermaking 
-     B. 火藥 Gunpowder 
-     C. 指南針 Compass 
-     D. 印刷術 Printing''', "answer": "D. 印刷術 Printing"},
-    {"question": '''哪個城市被稱為“文藝復興的搖籃”？/ Which city is known as the "Cradle of the Renaissance"? 
-     A. 羅馬 Rome 
-     B. 佛羅倫斯 Florence 
-     C. 威尼斯 Venice 
-     D. 巴黎 Paris''', "answer": "B. 佛羅倫斯 Florence"},
-    {"question": '''美國內戰的主要原因是什麼？/ What was the main cause of the American Civil War? 
-     A. 種族問題 Race issues 
-     B. 南北之間的貿易衝突 Trade disputes between North and South 
-     C. 奴隸制度的爭議 Disputes over slavery 
-     D. 宗教信仰的不同 Religious differences''', "answer": "C. 奴隸制度的爭議 Disputes over slavery"},
-     {"question": '''二戰期間的軸心國包括哪三個主要國家？/ Which three countries were the main Axis powers during WWII? 
-     A. 德國、義大利和日本 Germany, Italy, and Japan 
-     B. 德國、法國和俄羅斯 Germany, France, and Russia 
-     C. 英國、法國和美國 Britain, France, and the USA 
-     D. 日本、俄羅斯和中國 Japan, Russia, and China''', "answer": "A. 德國、義大利和日本 Germany, Italy, and Japan"},
-    {"question": '''“拿破崙戰爭”中的滑鐵盧戰役發生在哪裡？/ Where did the Battle of Waterloo take place during the Napoleonic Wars? 
-     A. 法國 France 
-     B. 比利時 Belgium 
-     C. 德國 Germany 
-     D. 荷蘭 Netherlands''', "answer": "B. 比利時 Belgium"},
-    {"question": '''著名的“絲綢之路”起點是中國哪座城市？/ Which Chinese city was the starting point of the famous Silk Road? 
-     A. 長安 Chang'an (Xi'an) 
-     B. 北京 Beijing 
-     C. 杭州 Hangzhou 
-     D. 廣州 Guangzhou''', "answer": "A. 長安 Chang'an (Xi'an)"},
-    {"question": '''美國獨立戰爭結束的條約在哪裡簽署？/ Where was the treaty ending the American Revolutionary War signed? 
-     A. 巴黎 Paris 
-     B. 費城 Philadelphia 
-     C. 倫敦 London 
-     D. 約克鎮 Yorktown''', "answer": "A. 巴黎 Paris"},
-    {"question": '''成吉思汗建立的蒙古帝國在其鼎盛時涵蓋了幾大洲？/ At its peak, the Mongol Empire covered how many continents? 
-     A. 1 
-     B. 2 
-     C. 3 
-     D. 4''', "answer": "C. 3"},
-    {"question": '''哪個國家首次發行了郵票？/ Which country issued the first postage stamp? 
-     A. 美國 USA 
-     B. 英國 UK 
-     C. 法國 France 
-     D. 德國 Germany''', "answer": "B. 英國 UK"},
-    {"question": '''哪條河流被稱為“文明的搖籃”？/ Which river is often referred to as the "Cradle of Civilization"? 
-     A. 尼羅河 Nile River 
-     B. 幼發拉底河 Euphrates River 
-     C. 印度河 Indus River 
-     D. 長江 Yangtze River''', "answer": "B. 幼發拉底河 Euphrates River"},
-    {"question": '''下列數字的規律是什麼？：1, 8, 27, 64, 125, ? / What is the pattern of the following numbers?: 1, 8, 27, 64, 125, ? 
-     A. 216 
-     B. 256 
-     C. 225 
-     D. 216''', "answer": "A. 216"},
-    {"question": '''下列數字的規律是什麼？：1, 4, 27, 256, 3125, ? / What is the pattern of the following numbers?: 1, 4, 27, 256, 3125, ? 
-     A. 46656 
-     B. 7776 
-     C. 4096 
-     D. 46660''', "answer": "A. 46656"},
-    {"question": '''下列數字的規律是什麼？：1, 1, 2, 3, 5, 8, ? / What is the pattern of the following numbers?: 1, 1, 2, 3, 5, 8, ? 
-     A. 13 
-     B. 10 
-     C. 12 
-     D. 9''', "answer": "A. 13"},
-    {"question": '''下列哪一種動物的心跳最慢？/ Which of the following animals has the slowest heart rate? 
-     A. 鯨魚 Whale 
-     B. 大象 Elephant 
-     C. 蜜蜂 Bee 
-     D. 青蛙 Frog''', "answer": "A. 鯨魚 Whale"},
     {"question": '''下列哪一個是人體內最長的骨頭？/ Which of the following is the longest bone in the human body? 
      A. 股骨 Femur 
      B. 脛骨 Tibia 
@@ -442,11 +332,6 @@ RIDDLES = [
      B. 聖赫勒拿島 Saint Helena 
      C. 馬爾他 Malta 
      D. 科西嘉 Corsica''', "answer": "B. 聖赫勒拿島 Saint Helena"},
-    {"question": '''歐洲歷史上，拿破崙是在哪個島嶼被流放的？ / On which island was Napoleon exiled? 
-     A. 馬達加斯加 Madagascar 
-     B. 聖赫勒拿島 Saint Helena 
-     C. 馬爾他 Malta 
-     D. 科西嘉 Corsica''', "answer": "B. 聖赫勒拿島 Saint Helena"},
     {"question": '''以下哪一種是固定收益資產？ / Which of the following is a fixed-income asset? 
      A. 股票 / Stocks 
      B. 債券 / Bonds 
@@ -456,5 +341,125 @@ RIDDLES = [
      A. 美聯儲 / Federal Reserve 
      B. 證券交易委員會 (SEC) / Securities and Exchange Commission (SEC) 
      C. 國際貨幣基金組織 (IMF) / International Monetary Fund (IMF) 
-     D. 世界銀行 / World Bank''', "answer": "B. 證券交易委員會 (SEC) / Securities and Exchange Commission (SEC)"}
+     D. 世界銀行 / World Bank''', "answer": "B. 證券交易委員會 (SEC) / Securities and Exchange Commission (SEC)"},
+     {"question": '''如果一個國家實施負利率政策，對儲戶通常意味著什麼？/ What does it typically mean for savers if a country implements a negative interest rate policy?
+     A. 他們的存款會更快地增長 Their savings will grow faster
+     B. 他們需要向銀行支付存款費用 They need to pay the bank to keep their money
+     C. 他們的存款沒有利息收入 They will earn no interest on their savings
+     D. 他們的存款會被轉換成政府債券 Their savings will be converted into government bonds''', "answer": "B. 他們需要向銀行支付存款費用 They need to pay the bank to keep their money"},
+    {"question": '''「碳中和」是指什麼？/ What does "carbon neutrality" refer to?
+     A. 停止使用所有碳基燃料 Stopping the use of all carbon-based fuels
+     B. 平衡排放到大氣中的二氧化碳量與移除的二氧化碳量 Balancing the amount of carbon dioxide released into the atmosphere with the amount removed
+     C. 將所有二氧化碳排放轉移到其他國家 Transferring all carbon dioxide emissions to other countries
+     D. 僅使用可再生能源 Using only renewable energy sources''', "answer": "B. 平衡排放到大氣中的二氧化碳量與移除的二氧化碳量 Balancing the amount of carbon dioxide released into the atmosphere with the amount removed"},
+    {"question": '''哪個國際組織負責制定全球會計準則？/ Which international organization is responsible for setting global accounting standards?
+     A. 國際貨幣基金組織 (IMF) International Monetary Fund (IMF)
+     B. 世界銀行 (WB) World Bank (WB)
+     C. 國際會計準則理事會 (IASB) International Accounting Standards Board (IASB)
+     D. 世界經濟論壇 (WEF) World Economic Forum (WEF)''', "answer": "C. 國際會計準則理事會 (IASB) International Accounting Standards Board (IASB)"},
+    {"question": '''什麼是「歐元區」？/ What is the "Eurozone"?
+     A. 歐洲所有國家的統稱 A collective term for all European countries
+     B. 使用歐元作為官方貨幣的歐盟成員國 EU member states that use the euro as their official currency
+     C. 歐洲最大的貿易區 The largest trading bloc in Europe
+     D. 歐洲的地理中心 The geographical center of Europe''', "answer": "B. 使用歐元作為官方貨幣的歐盟成員國 EU member states that use the euro as their official currency"},
+    {"question": '''如果你的影子越來越短，你正在往哪個方向走？/ If your shadow is getting shorter, which direction are you walking?
+     A. 朝向太陽 Toward the sun
+     B. 遠離太陽 Away from the sun
+     C. 影子長度和行走方向無關 Shadow length is not related to walking direction
+     D. 無法確定 Cannot be determined''', "answer": "A. 朝向太陽 Toward the sun"},
+    {"question": '''「量化寬鬆」(QE) 通常是指中央銀行採取什麼行動？/ What action does "Quantitative Easing" (QE) typically refer to a central bank taking?
+     A. 提高利率 Raising interest rates
+     B. 購買政府債券或其他金融資產 Buying government bonds or other financial assets
+     C. 減少貨幣供應 Reducing the money supply
+     D. 增加稅收 Increasing taxes''', "answer": "B. 購買政府債券或其他金融資產 Buying government bonds or other financial assets"},
+    {"question": '''哪個國家擁有世界上最大的外匯儲備？/ Which country has the world's largest foreign exchange reserves?
+     A. 美國 United States
+     B. 中國 China
+     C. 日本 Japan
+     D. 德國 Germany''', "answer": "B. 中國 China"},
+    {"question": '''什麼是「熊市」？/ What is a "bear market"?
+     A. 股票市場的快速增長期 A period of rapid growth in the stock market
+     B. 股票市場的長期下跌期 A prolonged period of decline in the stock market
+     C. 非法股票交易市場 An illegal stock trading market
+     D. 動物園裡的熊的展區 A bear enclosure in a zoo''', "answer": "B. 股票市場的長期下跌期 A prolonged period of decline in the stock market"},
+    {"question": '''地球上儲量最大的金屬是什麼？/ What is the most abundant metal on Earth?
+     A. 鐵 Iron
+     B. 鋁 Aluminum
+     C. 銅 Copper
+     D. 金 Gold''', "answer": "B. 鋁 Aluminum"},
+    {"question": '''「京都議定書」主要關注的是什麼環境問題？/ What environmental issue was the Kyoto Protocol primarily concerned with?
+     A. 臭氧層破洞 Ozone depletion
+     B. 全球暖化和溫室氣體排放 Global warming and greenhouse gas emissions
+     C. 水污染 Water pollution
+     D. 森林砍伐 Deforestation''', "answer": "B. 全球暖化和溫室氣體排放 Global warming and greenhouse gas emissions"},
+    {"question": '''什麼是「GDP」？/ What is "GDP"?
+     A. 全球發展計畫 Global Development Project
+     B. 國內生產總值 Gross Domestic Product
+     C. 政府債務比例 Government Debt Percentage
+     D. 全球耐用品價格 Global Durable Goods Price''', "answer": "B. 國內生產總值 Gross Domestic Product"},
+    {"question": '''你可以站在哪裡，左手是東方，右手是西方? Where can you stand so that your left hand is in the East and your right hand is in the West?
+     A. 赤道 Equator
+     B. 北極 North Pole
+     C. 南極 South Pole
+     D. 本初子午線 Prime Meridian''', "answer": "C. 南極 South Pole"},
+    {"question": '''世界上最小的國家是哪一個？/ What is the smallest country in the world?
+     A. 摩納哥 Monaco
+     B. 梵蒂岡 Vatican City
+     C. 新加坡 Singapore
+     D. 馬爾地夫 Maldives''', "answer": "B. 梵蒂岡 Vatican City"},
+    {"question": '''什麼東西打破了你才能使用它？/ What needs to be broken before you can use it?
+     A. 規則 Rule
+     B. 雞蛋 Egg
+     C. 承諾 Promise
+     D. 紀錄 Record''', "answer": "B. 雞蛋 Egg"},
+    {"question": '''哪個國家消耗的巧克力最多？/ Which country consumes the most chocolate?
+     A. 美國 United States
+     B. 瑞士 Switzerland
+     C. 比利時 Belgium
+     D. 德國 Germany''', "answer": "B. 瑞士 Switzerland"},
+    {"question": '''除了地球之外，太陽系中哪顆行星有最大的火山？/ Besides Earth, which planet in the solar system has the largest volcano?
+     A. 金星 Venus
+     B. 火星 Mars
+     C. 木星 Jupiter
+     D. 土星 Saturn''', "answer": "B. 火星 Mars"},
+    {"question": '''「羅斯柴爾德家族」(Rothschild Family) 以哪個行業聞名？/ The Rothschild Family is famous for which industry?
+     A. 石油 Oil
+     B. 銀行 Banking
+     C. 航運 Shipping
+     D. 科技 Technology''', "answer": "B. 銀行 Banking"},
+    {"question": '''什麼東西有頭、有尾，卻沒有身體？/ What has a head and a tail, but no body?
+     A. 蛇 Snake
+     B. 硬幣 Coin
+     C. 蝌蚪 Tadpole
+     D. 彗星 Comet''', "answer": "B. 硬幣 Coin"},
+    {"question": '''世界上最深的湖泊是哪一個？/ Which is the deepest lake in the world?
+     A. 貝加爾湖 Lake Baikal
+     B. 坦噶尼喀湖 Lake Tanganyika
+     C. 裏海 Caspian Sea
+     D. 維多利亞湖 Lake Victoria''', "answer": "A. 貝加爾湖 Lake Baikal"},
+    {"question": '''哪個組織負責監督國際貿易規則？/ Which organization oversees international trade rules?
+     A. 聯合國 (UN) United Nations (UN)
+     B. 世界貿易組織 (WTO) World Trade Organization (WTO)
+     C. 國際貨幣基金組織 (IMF) International Monetary Fund (IMF)
+     D. 世界銀行 (WB) World Bank (WB)''', "answer": "B. 世界貿易組織 (WTO) World Trade Organization (WTO)"},
+    {"question": '''「道瓊工業平均指數」包含多少家公司的股票？/ The Dow Jones Industrial Average consists of how many companies' stocks?
+     A. 10
+     B. 30
+     C. 50
+     D. 100''', "answer": "B. 30"},
+    {"question": '''唯一一個國旗不是矩形的國家是哪個？/ Which is the only country whose flag is not rectangular?
+     A. 瑞士 Switzerland
+     B. 尼泊爾 Nepal
+     C. 梵蒂岡 Vatican City
+     D. 新加坡 Singapore''', "answer": "B. 尼泊爾 Nepal"},
+    {"question": '''人類無法嚐到哪種味道? / Which taste cannot be detected by humans?
+     A. 酸 Sour
+     B. 甜 Sweet
+     C. 辣 Spicy
+     D. 鮮 Umami''', "answer": "C. 辣 Spicy"},
+    {"question": '''什麼東西你越多拿走，它就變得越大？/ What gets bigger the more you take away from it?
+     A. 債務 Debt
+     B. 洞 Hole
+     C. 年齡 Age
+     D. 秘密 Secret''', "answer": "B. 洞 Hole"}
 ]
